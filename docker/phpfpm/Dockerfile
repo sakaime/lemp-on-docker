@@ -1,13 +1,21 @@
 FROM php:7.4-fpm-alpine
 
-RUN apk add --update vim unzip icu-dev && \
-  docker-php-ext-install intl pdo_mysql
+USER root
+
+ARG INSTALL_XDEBUG
+
+COPY init.sh /root/init.sh
+
+RUN apk add --update bash vim unzip icu-dev gcc g++ make autoconf && \
+  docker-php-ext-install intl pdo_mysql && \
+  chmod +x /root/init.sh
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN if "$INSTALL_XDEBUG"; then \
   pecl install xdebug && \
   docker-php-ext-enable xdebug && \
-  apt-get install -y iproute && \
-  echo $(ip route | awk 'NR==1 {print $3}') host.docker.internal >> /etc/hosts \
+  apk add iproute2 \
 ;fi
+
+CMD ["/root/init.sh"]
