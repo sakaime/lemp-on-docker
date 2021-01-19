@@ -18,4 +18,4 @@ RUN if "$INSTALL_XDEBUG"; then \
   apk add iproute2 \
 ;fi
 
-CMD ["/root/init.sh"]
+CMD ["/bin/bash", "/root/init.sh"]
