@@ -18,10 +18,12 @@ services:
       context: ./phpfpm
       args:
         - INSTALL_XDEBUG=${INSTALL_XDEBUG:-true}
+        - USER_ID=${LOCAL_UID:-1000}
     volumes:
       - ../data:/var/www/html
       - ./phpfpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini:cached
       - ./phpfpm/php.ini:/usr/local/etc/php/php.ini
+      - ./phpfpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
     depends_on:
       - mysql
 
