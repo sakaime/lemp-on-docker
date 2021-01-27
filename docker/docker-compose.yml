@@ -17,7 +17,7 @@ services:
     build: 
       context: ./phpfpm
       args:
-        - INSTALL_XDEBUG=${INSTALL_XDEBUG:-true}
+        - INSTALL_XDEBUG=${INSTALL_XDEBUG}
         - USER_ID=${LOCAL_UID:-1000}
     volumes:
       - ../data:/var/www/html
